@@ -4,7 +4,8 @@ from .card import Card
 from .util import guid_for
 
 class Note:
-  def __init__(self, model=None, fields=None, sort_field=None, tags=None, guid=None):
+  def __init__(self, model=None, fields=None, sort_field=None, tags=None, guid=None, note_id=None):
+    self.note_id = note_id
     self.model = model
     self.fields = fields
     self.sort_field = sort_field
@@ -45,7 +46,12 @@ class Note:
     self._guid = val
 
   def write_to_db(self, cursor, now_ts, deck_id):
-    cursor.execute('INSERT INTO notes VALUES(null,?,?,?,?,?,?,?,?,?,?);', (
+    # from w3lib.html import remove_tags
+    # v = remove_tags(self.sort_field).strip()
+    # import logging
+    # logging.info('Sort field = %s', v)
+    cursor.execute('INSERT INTO notes VALUES(?,?,?,?,?,?,?,?,?,?,?);', (
+        self.note_id,                  # id
         self.guid,                    # guid
         self.model.model_id,          # mid
         now_ts,                       # mod

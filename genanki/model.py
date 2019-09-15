@@ -4,13 +4,14 @@ import pystache
 import yaml
 
 class Model:
-  def __init__(self, model_id=None, name=None, fields=None, templates=None, css='', type=0):
+  def __init__(self, model_id=None, name=None, fields=None, templates=None, css='', type=0, sortf=0):
     self.model_id = model_id
     self.name = name
     self.set_fields(fields)
     self.set_templates(templates)
     self.css = css
     self.type = type
+    self.sortf = sortf
 
   def set_fields(self, fields):
     if isinstance(fields, list):
@@ -104,7 +105,7 @@ class Model:
       "mod": now_ts,
       "name": self.name,
       "req": self._req,
-      "sortf": 0,
+      "sortf": self.sortf,
       "tags": [],
       "tmpls": self.templates,
       "type": self.type,

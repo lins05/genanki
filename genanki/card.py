@@ -1,11 +1,13 @@
 class Card:
-  def __init__(self, ord, suspend=False):
+  def __init__(self, ord, card_id=None, suspend=False):
+    self.card_id = card_id
     self.ord = ord
     self.suspend = suspend
 
   def write_to_db(self, cursor, now_ts, deck_id, note_id):
     queue = -1 if self.suspend else 0
-    cursor.execute('INSERT INTO cards VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);', (
+    cursor.execute('INSERT INTO cards VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);', (
+        self.card_id, # id
         note_id,    # nid
         deck_id,    # did
         self.ord,   # ord
